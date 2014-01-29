@@ -95,6 +95,7 @@ class PrefixRoutingTable(RoutingTable):
         self._nodes_lock = threading.Lock()
         self._bad = set()
         self._prefix_bytes = prefix_bytes
+        self._index = 0
 
     def update_entry(self, node_id, node):
         if node not in self._bad:
@@ -128,6 +129,8 @@ class PrefixRoutingTable(RoutingTable):
             raise ValueError("Expected prefix_bytes:%d, got %d" % (self._prefix_bytes, prefix_bytes))
         with self._nodes_lock:
             return random.sample(self._nodes[id_[:prefix_bytes]].items(), N)
+
+
 
     def _random_node(self,prefix, outstanding=False):
         """
@@ -167,3 +170,4 @@ class PrefixRoutingTable(RoutingTable):
                             del self._nodes[prefix][k]
                         self._bad.add(v.c)
         return abandoned_transactions
+

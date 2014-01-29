@@ -153,6 +153,7 @@ class KRPCServer(object):
         node.treq = time.time()
         node.t.add(t)
 
+        logger.info("outgoing " + data)
         self._sock.sendto(data, node.c)
         return t
 
